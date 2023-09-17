@@ -1,0 +1,18 @@
+<h1>django form을 이용한 새 글 작성</h1>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <!-- csrf 공격을 방지해줌 -->
+
+    <!-- views.py의 render() 세번째 인자를 받아올 수 있음  -->
+    <!-- <table>
+        {{form}}
+    </table> -->
+
+    <!-- 위 코드와 동일한 기능을 하는 코드를 아래와 같이 짧게 작성가능 -->
+    <table>
+        {{form.as_table}}
+    </table>
+    <input type="submit" value="django form 새 글 생성하기">
+
+</form>
