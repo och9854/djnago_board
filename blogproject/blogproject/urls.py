@@ -26,5 +26,16 @@ urlpatterns = [
 
     # 2. django form을 이용해 블로그 객체만들기
     path("formcreate/", views.formcreate, name='formcreate'),
+    # 3. django model form을 이용해 블로그 객체만들기
+    path("modelformcreate/", views.modelformcreate, name='modelformcreate'),
 
+
+    # detail page 구현
+    # 127.0.0.1:8000/detail/1
+    # 127.0.0.1:8000/detail/2
+    # 127.0.0.1:8000/detail/3
+    # 127.0.0.1:8000/detail/4
+    # 위와 같이 설계하기 위해서는 url 호출시 detail + 순서 키가 필요하다.
+    path('detail/<int:blog_id>', views.detail, name='detail')
+    # blog_id: detail이라는 함수에 인자로 넘길 변수값
 ]

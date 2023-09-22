@@ -1,12 +1,23 @@
 <h1>My simple blog</h1>
 
 <!-- 아래 공간에는 블로그 글들의 목록을 보여줄 예정 -->
+<!-- posts 에는 queryset으로 감싸진 객체가 들어옴 -->
+{% for post in posts %}
+<a href="{% url 'detail' post.id %}">
+    <h3> 제목: {{ post.title }}</h3>
+</a>
+<h4> 작성날짜: {{ post.date }}</h4>
+django가 만든, 블로그 객체 생성 순서에 해당하는 보이지 않는 primary key: {{ post.id }}
 
 
+{% endfor %}
 
 <!-- # 1. html form을 이용해 블로그 객체만들기 -->
 <a href="{% url 'new' %}"> HTML을 통한 새 글 작성 </a><br />
 
 
 <!-- # 2. django form을 이용해 블로그 객체만들기 -->
-<a href="{% url 'formcreate' %}"> django form을 통한 새 글 작성 </a>
+<a href="{% url 'formcreate' %}"> django form을 통한 새 글 작성 </a> <br>
+
+<!-- # 3. django modelform을 이용해 블로그 객체만들기 -->
+<a href="{% url 'modelformcreate' %}"> django model form을 통한 새 글 작성 </a>
