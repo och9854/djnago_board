@@ -1,6 +1,6 @@
 # 2. django form을 저장할 수 있는 파일임
 from django import forms
-from .models import Blog   # Blog 모델을 기반으로 form을 만들 것
+from .models import Blog, Comment   # Blog 모델을 기반으로 form을 만들 것
 
 #
 
@@ -16,4 +16,12 @@ class BlogModelForm(forms.ModelForm):
     class Meta:
         model = Blog       # blog title을 받음
         # 어떤 요소들을 상속받을지 지정 e.g. fields = '__all__'
-        fields = ['title', 'body']
+        fields = '__all__'
+        # fields = ['title', 'body']
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment       # Comment commment 받음
+        # 어떤 요소들을 상속받을지 지정 e.g. fields = '__all__'
+        fields = ['comment']

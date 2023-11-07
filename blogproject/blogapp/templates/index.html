@@ -1,3 +1,13 @@
+{% if user.is_authenticated %}
+안녕하세요, {{user.username}}님!
+<a href="{% url 'logout' %}"> 로그아웃 </a>
+
+{% else %}
+아직 로그인이 되지 않았습니다, 로그인을 진행해 주세요
+<a href="{% url 'login' %}"> 로그인 </a>
+{% endif %}
+
+
 <h1>My simple blog</h1>
 
 <!-- 아래 공간에는 블로그 글들의 목록을 보여줄 예정 -->
@@ -12,12 +22,11 @@ django가 만든, 블로그 객체 생성 순서에 해당하는 보이지 않�
 
 {% endfor %}
 
-<!-- # 1. html form을 이용해 블로그 객체만들기 -->
+
+<!-- # 1. html form을 이용해 블로그 객체만들기
 <a href="{% url 'new' %}"> HTML을 통한 새 글 작성 </a><br />
-
-
-<!-- # 2. django form을 이용해 블로그 객체만들기 -->
-<a href="{% url 'formcreate' %}"> django form을 통한 새 글 작성 </a> <br>
+# 2. django form을 이용해 블로그 객체만들기
+<a href="{% url 'formcreate' %}"> django form을 통한 새 글 작성 </a> <br> -->
 
 <!-- # 3. django modelform을 이용해 블로그 객체만들기 -->
 <a href="{% url 'modelformcreate' %}"> django model form을 통한 새 글 작성 </a>

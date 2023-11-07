@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from blogapp import views
+from accounts import views as accounts_views
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.home, name='home'),
@@ -36,6 +39,17 @@ urlpatterns = [
     # 127.0.0.1:8000/detail/3
     # 127.0.0.1:8000/detail/4
     # 위와 같이 설계하기 위해서는 url 호출시 detail + 순서 키가 필요하다.
-    path('detail/<int:blog_id>', views.detail, name='detail')
+    path('detail/<int:blog_id>', views.detail, name='detail'),
     # blog_id: detail이라는 함수에 인자로 넘길 변수값
+
+    # create_comment
+    path('create_comment/<int:blog_id>',
+         views.create_comment, name='create_comment'),
+
+    path('login/', accounts_views.login, name='login'),
+    path('logout/', accounts_views.logout, name='logout'),
+
 ]
+# media file에 접근할 수 있는 url로 추가해줘야함
+urlpatterns += static(settings.MEDIA_URL,
+                      document_root=settings.MEDIA_ROOT)  # 이건 너무 관례적이라 외워도 됨

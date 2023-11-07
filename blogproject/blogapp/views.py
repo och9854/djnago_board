@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+# get_object_or_404: pk값을 이용해 객체를 호출하고, 없다면 404error를 render한다.
 from .models import Blog
 from django.utils import timezone
-from .forms import BlogForm, BlogModelForm
+from .forms import BlogForm, BlogModelForm, CommentForm
 
 # Create your views here.
 
@@ -62,10 +63,10 @@ def formcreate(request):
 
 
 def modelformcreate(request):
-    if request.method == 'POST':
+    if request.method == 'POST' or request.method == "FILES":
         # 입력내용을 DB에 저장
         # form을 만들어서, request에 담긴 내용을 받을수 있도록함
-        form = BlogModelForm(request.POST)
+        form = BlogModelForm(request.POST, request.FILES)
         # 입력값 검사: 자동으로 해줌
         if form.is_valid():
             form.save()
@@ -78,5 +79,23 @@ def modelformcreate(request):
 
 
 # Detail page view
-def detail(request):
-    return
+def detail(request, blog_id):
+    # blog_id 번째 블로그 글을 DB로부터 가지고 와서
+    # blog_id 번째 블로그 글을 detail.html로 render 하는 코드
+    blog_detail = get_object_or_404(Blog, pk=blog_id)
+    comment_form = CommentForm()
+
+    return render(request, 'detail.html', {'blog_detail': blog_detail, "comment_form": comment_form})
+
+
+def create_comment(request, blog_id):
+    filled_form = CommentForm(request.POST)
+
+    if filled_form.is_valid():
+        # 지금 저장하면 안됨! because: 어떤 blog post에 해당하는 건지 모르기 때문에!
+        finished_form = filled_form.save(commit=False)  # 저장(commit)을 일시정지 시킴
+        finished_form.post = get_object_or_404(Blog, pk=blog_id)  # post id를 받음
+        finished_form.save()  # 이제 저장한다.
+
+    return redirect('detail', blog_id)  # blog_id를 갖는 detail page로 redirect!
+# 댓글 목록들을 보여주는 함수 작성 예정

@@ -1,0 +1,31 @@
+<h1> Title </h1>
+{{blog_detail.title}}
+<h2> Date</h2>
+{{blog_detail.date}}
+<h3> Body</h3>
+{{blog_detail.body}}
+
+<h3> Photo</h3>
+
+{% if blog_detail.photo %}
+<!-- 사진 보여주기 -->
+<!-- {{blog_detail.photo.url}} photo 뒤에 url 붙이는 거 잊지 말자!-->
+<img src="{{blog_detail.photo.url}}" alt="" , height="600">
+{% endif %}
+
+<hr>
+<h3> Comments </h3>
+<form method="post" action="{% url 'create_comment' blog_detail.id %}">
+    {% csrf_token %}
+    {{comment_form}}
+    <input type="submit">
+</form>
+
+
+<hr>
+<!-- 댓글 목록 -->
+{% for comment in blog_detail.comment_set.all %}
+<!-- blog_detail.comment_set.all: detail의 comment를 참고하는 객체들의 '집합'을 '모두' 가져온다.-->
+<p>{{comment}}</p>
+<hr>
+{% endfor %}
